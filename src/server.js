@@ -1,10 +1,17 @@
-import dotenv from 'dotenv';
-dotenv.config();
+import 'dotenv/config';
 
 import app from './app.js';
 import { connectDB } from './config/db.js';
 
 const PORT = process.env.PORT || 5000;
+
+const variablesRequeridas = ['MONGODB_URI', 'JWT_SECRET'];
+const variablesFaltantes = variablesRequeridas.filter((clave) => !process.env[clave]);
+
+if (variablesFaltantes.length > 0) {
+  console.error(`[Config] Faltan variables de entorno: ${variablesFaltantes.join(', ')}`);
+  process.exit(1);
+}
 
 const startServer = async () => {
   // Connect to Database
