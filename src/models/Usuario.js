@@ -45,6 +45,15 @@ const usuarioSchema = new mongoose.Schema(
       select: false,
     },
     avatar: { type: String, default: '' },
+    rol: {
+      type: String,
+      enum: {
+        values: ['usuario', 'admin'],
+        message: 'El rol debe ser usuario o admin.',
+      },
+      default: 'usuario',
+      index: true,
+    },
     verificado: { type: Boolean, default: false },
     ubicacion: {
       type: String,
@@ -77,6 +86,7 @@ usuarioSchema.methods.toPublico = function toPublico() {
     username: this.username,
     email: this.email,
     avatar: this.avatar,
+    rol: this.rol ?? 'usuario',
     verificado: this.verificado,
     ubicacion: this.ubicacion,
     stats: {
